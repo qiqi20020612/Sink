@@ -49,6 +49,11 @@ export default eventHandler(async (event) => {
 
   link.slug = normalizeSlug(event, link.slug)
 
+  // 如果生成的 slug 没有 re/ 前缀，则自动补上
+  if (!link.slug.startsWith('re/')) {
+    link.slug = `re/${link.slug}`
+  }
+
   // Auto-detect unsafe URL via Safe Browsing DoH
   if (link.unsafe === undefined) {
     const safe = await isSafeUrl(event, link.url)
